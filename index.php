@@ -9,8 +9,18 @@ try
 		'mysql:host=localhost;dbname=weatherapp;charset=utf8',
 		'phpmyadmin', 
 		'mypassword');
+		
+	if (isset($_GET['ville'],$_GET['haut'],$_GET['bas'])) {
+		$query = $pdo->prepare('INSERT INTO Météo VALUES (:ville,:haut,:bas)');
+		$query->execute([
+			'ville'=> $_GET['ville'],
+			'haut'=> $_GET['haut'],
+			'bas'=> $_GET['bas']
+		]);
+	}
+	
 	$query = 'SELECT * FROM Météo';
-    $arr = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC); // Sur une même ligne ...
+	$arr = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC); // Sur une même ligne ...
 	echo '<pre>';
 	print_r($arr);
 	echo '</pre>';
@@ -23,6 +33,13 @@ catch(Exception $e)
 }
 
 ?>
+
+<form action="" method="get">
+	<input type="text" name="ville" placeholder="City">
+	<input type="number" name="haut" placeholder="Haut">
+	<input type="number" name="bas" placeholder="Bas">
+	<button type='submit'>Ajouter</button>
+</form>
 
 <table>
   <thead>
