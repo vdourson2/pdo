@@ -4,12 +4,13 @@ ini_set('display_errors', 1);
 
 try
 {
-	// On se connecte à MySQL
+	//Connecting to MySQL
 	$pdo = new PDO(
 		'mysql:host=localhost;dbname=weatherapp;charset=utf8',
 		'phpmyadmin', 
 		'mypassword');
-		
+	
+	//Add a city
 	if (isset($_GET['ville'],$_GET['haut'],$_GET['bas'])) {
 		$query = $pdo->prepare('INSERT INTO Météo VALUES (:ville,:haut,:bas)');
 		$query->execute([
@@ -17,14 +18,25 @@ try
 			'haut'=> $_GET['haut'],
 			'bas'=> $_GET['bas']
 		]);
+		header('Location:./index.php');
 	}
-	
+
+	//Suppress a city
+	if (isset($_GET['del'])){
+		$query = $pdo->prepare('DELETE FROM Météo WHERE ville LIKE :del');
+		$query->execute([
+			'del'=> $_GET['del']
+		]);
+		header('Location:./index.php');
+	}
+
 	$query = 'SELECT * FROM Météo';
-	$arr = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC); // Sur une même ligne ...
-	echo '<pre>';
-	print_r($arr);
-	echo '</pre>';
-	var_dump($arr);
+	$arr = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
+	
+	// Display all table - used to debug
+	// echo '<pre>';
+	// print_r($arr);
+	// echo '</pre>';
 }
 catch(Exception $e)
 {
@@ -52,6 +64,11 @@ catch(Exception $e)
   <tbody>
   	<?php foreach($arr as $i => $row) { ?>
 			<tr>
+				<td>
+					<a href="./index.php?del=<?= $row['ville'] ?>">
+						<input type="checkbox" name="">
+					</a>
+				</td>
 				<?php foreach($arr[$i] as $data){ ?>
 					<td><?= $data ?></td>
 				<?php } ?>
