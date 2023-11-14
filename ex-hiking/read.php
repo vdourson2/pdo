@@ -64,7 +64,7 @@ catch(Exception $e)
                                 <td><?= htmlspecialchars($data)?></td>
                         <?php endif ?>
                       <?php } ?>
-                      <td><button >supprimer</button></td>
+                      <td><a href="./delete.php?id=<?= $arr[$i]['id']?>">Supprimer</a></td>
                   </tr>
           <?php } ?>
         </tbody>
