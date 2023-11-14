@@ -44,7 +44,7 @@ catch(Exception $e)
 	<link rel="stylesheet" href="css/basics.css" media="screen" title="no title" charset="utf-8">
 </head>
 <body>
-	<a href="./read.php">Liste des données</a>
+	<a href="./read.php">Liste des randonnées</a>
 	<h1>Ajouter</h1>
 	<p><?= $message ?? ''?></p>
 	<form action="" method="post">

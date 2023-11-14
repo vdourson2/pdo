@@ -57,12 +57,18 @@ catch(Exception $e)
         <tbody>
             <?php foreach($arr as $i => $row) { ?>
                   <tr>
-                      <?php foreach($arr[$i] as $col => $data){ ?>
-                          <td><?= $data ?></td>
+                      <?php foreach($arr[$i] as $col => $data) { ?>
+                        <?php if ($col == 'name') : ?>
+                                <td><a href="./update.php?id=<?=$arr[$i]['id']?>"><?= htmlspecialchars($data) ?></a></td>
+                        <?php else : ?>
+                                <td><?= htmlspecialchars($data)?></td>
+                        <?php endif ?>
                       <?php } ?>
+                      <td><button >supprimer</button></td>
                   </tr>
           <?php } ?>
         </tbody>
     </table>
+    <a href="./create.php">Ajouter une randonnées</a>
   </body>
 </html>
