@@ -1,6 +1,7 @@
 <?php 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+session_start();
 
 //Nous allons faire une web app qui va lister les randonnées à l'île de la Réunion.
 //Récupérer la base de données hiking (reunion_island.sql) pour l'importer.
@@ -24,11 +25,9 @@ try
     $arr = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
     
     // Display all table - used to debug
-    echo '<pre>';
-    print_r($arr);
-    echo '</pre>';
-    echo gettype($arr[0]['duration']);
-    print_r(date_parse($arr[0]['duration']));
+    // echo '<pre>';
+    // print_r($arr);
+    // echo '</pre>';
 }
 catch(Exception $e)
 {
@@ -45,6 +44,17 @@ catch(Exception $e)
     <link rel="stylesheet" href="css/basics.css" media="screen" title="no title" charset="utf-8">
   </head>
   <body>
+    <header>
+    <h2>Connexion</h2>
+    <?= isset($_SESSION['displayForm']) ? '<button><a href="./logout.php">Déconnection</a></button>' : '' ; ?>
+    <form action="./login.php" method="post" style="display:<?= $_SESSION['displayForm'] ?? 'block'?>"> 
+      <input type="text" style="display:none">
+      <input type="password" style="display:none">
+      <input type="text" name="login" placeholder="Login">
+      <input type="password" name="pwd" placeholder="Password">
+      <button type="submit" name="connexion">Connexion</button>
+    </form>
+    </header>
     <h1>Liste des randonnées</h1>
     <table>
         <thead>
@@ -69,6 +79,6 @@ catch(Exception $e)
           <?php } ?>
         </tbody>
     </table>
-    <a href="./create.php">Ajouter une randonnées</a>
+    <button><a href="./create.php">Ajouter une randonnées</a></button>
   </body>
 </html>
